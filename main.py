@@ -32,18 +32,19 @@ class TeamModel(TeamBase):
         orm_mode = True
 
 class EmployeeBase(BaseModel):
-    team_id = int
-    first_name = str
-    last_name = str
-    username = str
-    password = str
-    national_code = str
-    phone_number =str
-    address = str
+    team_id: int
+    first_name: str
+    last_name: str
+    username: str
+    password: str
+    national_code: str
+    phone_number: str
+    address: str
 
 class EmployeeModel(EmployeeBase):
-    class Config: 
+    class Config:
         orm_mode = True
+
         
 def get_db():
     db = SessionLocal()
@@ -60,10 +61,10 @@ models.Base.metadata.create_all(bind=engine)
 def read_root():
     return {"Hello": "World"}
 
-@app.post("/teams", response_model=TeamModel)
+@app.post("/teams/new", response_model=TeamModel)
 async def create_team(team: TeamBase, db: Session = Depends(get_db)):
     team_leader_id = team.team_leader_id
-    team_leader = db.query(Employee).filter(Employee.employee_id == team_leader_id).first()
+    team_leader = db.query(models.Employee).filter(models.Employee.employee_id == team_leader_id).first()
     if not team_leader:
         raise HTTPException(status_code=404, detail="Team leader not found")
     db_team = models.Team(**team.dict())
@@ -72,3 +73,11 @@ async def create_team(team: TeamBase, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_team)
     return db_team
+
+@app.post("/employee/new", response_model=EmployeeModel)
+async def create_emp(emp: EmployeeBase, db: Session = Depends(get_db)):
+    db_employee = models.Employee(**emp.dict())
+    db.add(db_employee)
+    db.commit()
+    db.refresh(db_employee)
+    return db_employee

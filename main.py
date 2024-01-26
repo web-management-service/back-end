@@ -13,7 +13,8 @@ app = FastAPI()
 # Set up CORS
 origins = [
     "http://localhost",
-    "http://localhost:3000",  # Add the URL of your React app
+    "http://localhost:5173",
+    "http://localhost:3000", 
 ]
 
 app.add_middleware(
@@ -134,7 +135,7 @@ async def get_team_by_id(team_id: int, db: Session = Depends(get_db)):
     return team
 
 @app.get("/employees/")
-async def get_employees(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+async def get_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     employees = db.query(models.Employee).offset(skip).limit(limit).all()
     return employees
 
@@ -145,13 +146,14 @@ async def get_employee(employee_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="کارمند مدنظر یافت نشد.")
     return employee
 
-@app.post("/employee/new", response_model=EmployeeModel)
+@app.post("/employee/new", response_model=int)
 async def create_emp(emp: EmployeeBase, db: Session = Depends(get_db)):
     db_employee = models.Employee(**emp.dict())
     db.add(db_employee)
     db.commit()
     db.refresh(db_employee)
-    return db_employee
+    
+    return db_employee.employee_id
 
 @app.put("/employees/{employee_id}/update-team", response_model=EmployeeModel)
 async def update_employee_team(employee_id: int, team_update: EmployeeTeamUpdate, db: Session = Depends(get_db)):

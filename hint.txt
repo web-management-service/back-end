@@ -1,0 +1,120 @@
+1. **Create Team:**
+   - **Route:** `POST "/teams/new"`
+   - **Data:**
+     ```json
+     {
+       "team_name": "Example Team",
+       "team_leader_id": 1,
+       "total_members": 1
+     }
+     ```
+
+2. **Get All Teams:**
+   - **Route:** `GET "/teams"`
+   - **Data:** None
+
+3. **Get Team by ID:**
+   - **Route:** `GET "/teams/{team_id}"`
+   - **Data:** None
+
+4. **Create Employee:**
+   - **Route:** `POST "/employee/new"`
+   - **Data:**
+     ```json
+     {
+       "team_id": 1,
+       "first_name": "John",
+       "last_name": "Doe",
+       "username": "johndoe",
+       "password": "password123",
+       "national_code": "1234567890",
+       "phone_number": "1234567890",
+       "address": "123 Main St"
+     }
+     ```
+
+5. **Update Employee Team:**
+   - **Route:** `PUT "/employees/{employee_id}/update-team"`
+   - **Data:**
+     ```json
+     {
+       "team_id": 2
+     }
+     ```
+
+6. **Delete Employee:**
+   - **Route:** `DELETE "/employees/{employee_id}"`
+   - **Data:** None
+
+7. **Login (Authenticate User):**
+   - **Route:** `POST "/login"`
+   - **Data:**
+     ```json
+     {
+       "username": "johndoe",
+       "password": "password123"
+     }
+     ```
+
+8. **Create Attendance Log:**
+   - **Route:** `POST "/attendance-log/"`
+   - **Data:**
+     ```json
+     {
+       "time_entry": "2024-01-26T10:00:00",
+       "time_leave": "2024-01-26T18:00:00",
+       "employee_id": 1
+     }
+     ```
+
+9. **Get Attendance Logs Between Dates:**
+   - **Route:** `POST "/attendance-log/range"`
+   - **Data:**
+     ```json
+     {
+       "start_date": "2024-01-01T00:00:00",
+       "end_date": "2024-01-31T23:59:59"
+     }
+     ```
+
+10. **Create Daily Leave Record:**
+    - **Route:** `POST "/daily-leave-record/"`
+    - **Data:**
+      ```json
+      {
+        "time_started": "2024-01-26",
+        "time_end": "2024-01-27",
+        "employee_id": 1
+      }
+      ```
+
+11. **Get Daily Leave Records Between Dates:**
+    - **Route:** `POST "/daily-leave-record/range"`
+    - **Data:**
+      ```json
+      {
+        "start_date": "2024-01-01",
+        "end_date": "2024-01-31"
+      }
+      ```
+
+12. **Create Hourly Leave Record:**
+    - **Route:** `POST "/hourly-leave-record/"`
+    - **Data:**
+      ```json
+      {
+        "time_started": "2024-01-26T10:00:00",
+        "time_end": "2024-01-26T12:00:00",
+        "employee_id": 1
+      }
+      ```
+
+13. **Get Hourly Leave Records Between Dates:**
+    - **Route:** `POST "/hourly-leave-record/range"`
+    - **Data:**
+      ```json
+      {
+        "start_date": "2024-01-01T00:00:00",
+        "end_date": "2024-01-31T23:59:59"
+      }
+      ```
